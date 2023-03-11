@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.CalMapper">
+	
+	<select id="list" resultType="calendarVO">
+		select
+			cal_no, title, start_date, end_date
+		from calendar	
+	</select>
+	
+	<insert id="register" parameterType="calendarVO" useGeneratedKeys="true">
+		<selectKey order="BEFORE" keyProperty="calNo" resultType="int">
+			select calendar_no_seq.nextval from dual
+		</selectKey>
+		insert into calendar(
+			cal_no, title, start_date, end_date
+		)values(
+			#{calNo}, #{title}, #{startDate}, #{endDate}
+		)
+	</insert>
+	
+	<delete id="delete" parameterType="calendarVO">
+		delete from calendar where cal_no in 
+		(select cal_no
+			from calendar
+			where title = #{title}
+			and start_date like #{startDate} || '%'
+		)
+	</delete>
+
+
+
+
+</mapper>
+
+

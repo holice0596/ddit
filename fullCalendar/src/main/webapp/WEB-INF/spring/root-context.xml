@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean destroy-method="close" class="org.apache.commons.dbcp2.BasicDataSource" id="dataSource">
+		<property value="oracle.jdbc.driver.OracleDriver" name="driverClassName" />
+		<property value="jdbc:oracle:thin:@localhost:1521:xe" name="url" />
+		<property value="sora" name="username" />
+		<property value="java" name="password" />
+	</bean>
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property value="classpath:/sqlmap/**/*_SQL.xml" name="mapperLocations" />
+		<property value="/WEB-INF/mybatisAlias/mybatisAlias.xml" name="configLocation" />
+	</bean>
+	
+	<!-- 데이터베이스에 개별적으로 쿼리를 실행시키는 객체이 객체를 통해서 query를 실행한다. -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" index="0" />
+	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property value="kr.or.ddit.mapper" name="basePackage" />
+	</bean>
+	
+</beans>
