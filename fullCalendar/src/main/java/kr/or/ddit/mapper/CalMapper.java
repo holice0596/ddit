@@ -9,5 +9,6 @@ public interface CalMapper {
 	public List<FullCalendarVO> list();
 	public void register(FullCalendarVO calendar) throws Exception;
 	public void delete(FullCalendarVO calendar)throws Exception;
+	public void update(FullCalendarVO calendar) throws Exception;
 
 }

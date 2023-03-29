@@ -48,7 +48,10 @@ public class FullController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		for(int i=0; i < list.size(); i++) {
+			map.put("no", list.get(i).getCalNo());
 			map.put("title", list.get(i).getTitle());
+			map.put("content", list.get(i).getContent());
+			System.out.println("content["+i+"] : " + list.get(i).getContent());
 			map.put("start", list.get(i).getStartDate());
 			map.put("end", list.get(i).getEndDate());
 			
@@ -69,10 +72,8 @@ public class FullController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(@Validated FullCalendarVO calendar, BindingResult result, Model model) throws Exception {
 		log.info("register()");
-		
-		log.info(calendar.getTitle());
-//		log.info(calendar.getStartDate());
-//		log.info(calendar.getEndDate());
+		log.info("title : " + calendar.getTitle());
+		log.info("content : " + calendar.getContent());
 		
 		service.register(calendar);
 		
@@ -83,15 +84,22 @@ public class FullController {
 		return "calendar";
 	}
 	
-	@RequestMapping(value = "/remove", method = RequestMethod.POST)
 	@ResponseBody
-	public String remove( FullCalendarVO calendar, Model model) throws Exception {
-			
-		log.info("remove()" +calendar );
+	@RequestMapping(value = "/remove", method = RequestMethod.POST)
+	public String remove(FullCalendarVO calendar, Model model) throws Exception {
+		log.info("remove()");
 		service.remove(calendar);
 		model.addAttribute("msg", "삭제 완료");
-		return "{\"result\" : \"성공\"}";
+//		return "{\"result\" : \"성공\"}";
+		return "calendar";
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(FullCalendarVO calendar, Model model) throws Exception{
+		log.info("update()");
+		service.update(calendar);
+		model.addAttribute("calNo", calendar.getCalNo());
+		return "calendar";
+	}
 }

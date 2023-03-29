@@ -11,4 +11,6 @@ public interface ICalService {
 	public void register(FullCalendarVO calendar)throws Exception;
 
 	public void remove(FullCalendarVO calendar) throws Exception;
+
+	public void update(FullCalendarVO calendar) throws Exception;
 }

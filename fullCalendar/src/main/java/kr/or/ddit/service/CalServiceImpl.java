@@ -31,4 +31,9 @@ public class CalServiceImpl implements ICalService {
 		mapper.delete(calendar);
 	}
 
+	@Override
+	public void update(FullCalendarVO calendar) throws Exception {
+		mapper.update(calendar);
+	}
+
 }
