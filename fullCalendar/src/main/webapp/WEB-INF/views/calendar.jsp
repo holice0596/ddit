@@ -102,8 +102,7 @@ html, body {
         var closeBtn = $("#closeBtn");				// modal [x] 버튼
         var modalCloseBtn = $("#modalCloseBtn");	// modal [취소] 버튼
         var deleteBtn = $("#deleteCalendar");		// 삭제 버튼
-    	var insert = true;
-        var update = true;
+    	 var flag = false;
         
         
        /* 
@@ -135,7 +134,7 @@ html, body {
      
      
      saveBtn.on("click", function(){
-//     	 console.log("flag == ", flag);
+    	 console.log("flag == ", flag);
     	 var title = $("#calendar_title");		// 일정 제목
          var content = $("#calendar_content"); 	// 일정 내용
          var account = $("#account");			// 거래처
@@ -153,7 +152,7 @@ html, body {
          var modalCloseBtn = $("#modalCloseBtn");	// modal [취소] 버튼
          var deleteBtn = $("#deleteCalendar");		// 삭제 버튼
          
-    	if(insert == true){ 						// 일정 등록
+    	if(flag == true){ 						// 일정 등록
 	     	   titleInput = title.val();
 	     	   contentInput = content.val();
 	     	   
@@ -200,8 +199,7 @@ html, body {
 	        
 	           
     		
-    	}
-    	if(update = true){
+    	}else{
 	     	 calNo = $("#calNo").val();
 	     	 title = $("#calendar_title").val();
 	     	 content = $("#calendar_content").val();
@@ -244,12 +242,13 @@ html, body {
            	   url : "/ddit/remove",
            	   data :param,
         	   dataType : "json",
-//            	   success : function(req){	// => ?? ajax에서 success로 안넘어오네??
-//            		  console.log("req ??" + req);
-//         	   }
+           	   success : function(req){	// => ?? ajax에서 success로 안넘어오네??
+           		  console.log("req ??" + req);
+        	   }
     		});
     		
 			alert(title+"삭제되었습니다.");
+// 			event.remove();	// 캘린더 화면에서 해당 일정 삭제
 			modal.hide();
 			location.reload();
 			
@@ -304,7 +303,7 @@ html, body {
             locale : 'ko', 					// 한국어 설정
             
             select : function(info) { 		// 캘린더에서 드래그 (일정 등록)이벤트를 생성할 수 있다.
-            	var insert = true;
+            	var flag = true;
             	console.log("info >> ",info);
                //console.log("date info >>> " + info.startStr + ", " + info.endStr+", defId : ");
                
@@ -343,7 +342,6 @@ html, body {
 // 			},
             
             eventClick: function(info){	// 등록된 일정을 클릭했을 경우 이벤트 발생
-            	var update = true;
             	console.log("info >>",info.event); 
                 console.log(calendar.getEvents())// 캘린더안에 어떻게 데이터가 담겨있는지 확인할때 사용
             	//console.log("clicked : " + info.event.title + "// content : "+ info.event.extendedProps.content +" // start : "+ info.event.startStr+" // end :  "+ info.event.endStr) ;	// 등록된 일정 클릭시 해당 일정의 제목, 시작일 정보
